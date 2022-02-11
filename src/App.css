@@ -36,3 +36,65 @@
     transform: rotate(360deg);
   }
 }
+
+.rounded-corners {
+  border-radius: 25px;
+}
+.column {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+.row {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-around;
+}
+.navbar {
+  background-color: red;
+  height: 15vh;
+  width: 100vw;
+}
+
+.main-area {
+  width: 70vw;
+  height: 80vh;
+}
+.right-bar {
+  background-color: silver;
+  width: 25vw;
+  height: 80vh;
+  margin: 2vw;
+}
+.logo {
+  height: 12vh;
+}
+.screen {
+  width: 45vw;
+  height: 50vh;
+  background-color: silver;
+  margin: 2vh;
+  justify-content: space-around;
+}
+.screen-image {
+  height: 40vh;
+  object-fit: contain;
+}
+.stats {
+  width: 50vw;
+  height: 20vh;
+  background-color: silver;
+}
+.nav-button {
+  width: 8vw;
+  height: 6vh;
+  margin: 2vw;
+}
+.team-button {
+  background-color: #4776f8;
+  color: wheat;
+}
+.history-button {
+  background-color: #fffc0b;
+}
