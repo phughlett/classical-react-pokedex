@@ -16,21 +16,20 @@ export default function PokemonCard({
             }
       }
     >
-      <h3>{pokemon.name}</h3>
+      <h3>{pokemon.name.toUpperCase()}</h3>
+
       <img src={pokemon.image} alt={pokemon.name}></img>
-      <div>
-        {isTeamCard ? (
-          <button
-            onClick={(e) => {
-              handleRemoveFromTeamClick(index);
-            }}
-          >
-            ❌
-          </button>
-        ) : (
-          <></>
-        )}
-      </div>
+      {isTeamCard ? (
+        <button
+          onClick={(e) => {
+            handleRemoveFromTeamClick(index);
+          }}
+        >
+          ❌
+        </button>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

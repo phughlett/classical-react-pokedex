@@ -50,8 +50,11 @@ class App extends Component {
     fetchPokemonFromSearchTerm(this.state.searchTerm)
       .then((pokeData) => {
         let { searchHistory } = this.state;
-        searchHistory = [pokeData, ...searchHistory];
-        this.setState({ searchHistory });
+        searchHistory = searchHistory.filter(
+          (item) => item.name !== pokeData.name
+        );
+
+        this.setState({ searchHistory: [pokeData, ...searchHistory] });
       })
       .catch((err) => {
         this.setState({ error: "No Pokemon Found" });

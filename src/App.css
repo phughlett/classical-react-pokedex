@@ -73,10 +73,12 @@ input {
   height: 80vh;
 }
 .right-bar {
+  color: antiquewhite;
   background-color: #282c34;
   width: 25vw;
   height: 80vh;
-  margin: 2vw;
+  margin-left: 2vw;
+  margin-right: 2vw;
   overflow: scroll;
 }
 .logo {
@@ -94,6 +96,7 @@ input {
   object-fit: contain;
 }
 .stats {
+  justify-content: space-evenly;
   width: 50vw;
   height: 20vh;
   background-color: silver;
@@ -104,18 +107,21 @@ input {
 }
 .team-button {
   background-color: #4776f8;
-  color: wheat;
+  color: antiquewhite;
 }
 .history-button {
   background-color: #fffc0b;
+  color: #282c34;
 }
 .error {
   font-size: 10vh;
 }
 
 .pokemon-card {
-  background-color: bisque;
+  color: #282c34;
+  background-color: silver;
   width: 15vw;
   height: 25vh;
   margin: 3px;
+  border: 1px darkgray;
 }

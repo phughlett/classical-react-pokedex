@@ -22,7 +22,7 @@ export default function RightSideBar({
     </div>
   ) : (
     <div className="search-history">
-      <h3>RECENTLY SEARCHED POKÉMON</h3>
+      <h3>SEARCHED POKÉMON</h3>
       {searchHistory.map((pokemon, index) => (
         <PokemonCard
           pokemon={pokemon}

@@ -32,8 +32,21 @@ export default function MainPage({
         {error ? (
           <h3>No pokémon found matching "{searchTerm}"</h3>
         ) : lastSearched ? (
-          <div>
-            <button onClick={handleAddToTeamClick}>ADD TO TEAM</button>
+          <div className="row">
+            <div>TYPE: {lastSearched.type}</div>
+            <div>WEIGHT: {lastSearched.weight}</div>
+
+            <div>
+              STATS:{" "}
+              {Object.entries(lastSearched.stats).map(
+                ([statName, statValue]) => (
+                  <div key={statName + statValue}>
+                    {statName}:{statValue}
+                  </div>
+                )
+              )}
+            </div>
+            <button onClick={handleAddToTeamClick}>ADD</button>
           </div>
         ) : (
           <h3>Search a pokémon to get started</h3>
