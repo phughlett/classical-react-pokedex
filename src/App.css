@@ -95,8 +95,7 @@ input {
   height: 40vh;
   object-fit: contain;
 }
-.stats {
-  justify-content: space-evenly;
+.bottom-box {
   width: 50vw;
   height: 20vh;
   background-color: silver;
@@ -124,4 +123,18 @@ input {
   height: 25vh;
   margin: 3px;
   border: 1px darkgray;
+}
+.stats-display {
+  width: 100%;
+  justify-content: space-evenly;
+}
+.stat-box {
+  margin: 3px;
+}
+.search-button {
+  font-size: xx-large;
+}
+.stat-entry {
+  font: xx-large;
+  font-weight: bolder;
 }

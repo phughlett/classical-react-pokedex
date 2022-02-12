@@ -9,7 +9,7 @@ export default function RightSideBar({
 }) {
   let properHtml = showTeam ? (
     <div className="my-team">
-      <h3>MY TEAM</h3>
+      <h1>MY TEAM</h1>
       {myTeam.map((pokemon, index) => (
         <PokemonCard
           pokemon={pokemon}
@@ -22,7 +22,7 @@ export default function RightSideBar({
     </div>
   ) : (
     <div className="search-history">
-      <h3>SEARCHED POKÉMON</h3>
+      <h1>SEARCHED POKÉMON</h1>
       {searchHistory.map((pokemon, index) => (
         <PokemonCard
           pokemon={pokemon}

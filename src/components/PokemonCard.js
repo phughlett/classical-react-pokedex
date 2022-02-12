@@ -16,7 +16,7 @@ export default function PokemonCard({
             }
       }
     >
-      <h3>{pokemon.name.toUpperCase()}</h3>
+      <h2>{pokemon.name.toUpperCase()}</h2>
 
       <img src={pokemon.image} alt={pokemon.name}></img>
       {isTeamCard ? (

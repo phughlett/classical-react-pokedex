@@ -14,7 +14,9 @@ export default function NavBar({
           type="text"
           onChange={handleSearchChange}
         ></input>
-        <button onClick={handleSearchClick}>🔍</button>
+        <button className="search-button" onClick={handleSearchClick}>
+          🔍
+        </button>
       </form>
       <div className="row nav-buttons">
         {showTeam ? (
