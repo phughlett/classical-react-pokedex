@@ -33,6 +33,10 @@ class App extends Component {
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.toggleRightBarMode = this.toggleRightBarMode.bind(this);
+    this.handleAddToTeamClick = this.handleAddToTeamClick.bind(this);
+    this.handleRemoveFromTeamClick = this.handleRemoveFromTeamClick.bind(this);
+    this.handleHistoryCardClick = this.handleHistoryCardClick.bind(this);
+
     // this.___ = this.___.bind(this);
   }
   toggleRightBarMode() {
@@ -60,8 +64,27 @@ class App extends Component {
   handleSearchChange(e) {
     this.setState({ searchTerm: e.target.value });
   }
+  handleAddToTeamClick(e) {
+    let { searchHistory, myTeam } = this.state;
+    myTeam = new Set([searchHistory[0], ...myTeam]);
+    this.setState({ myTeam: [...myTeam] });
+  }
+  handleRemoveFromTeamClick(removalIndex) {
+    console.log(removalIndex);
+    let { myTeam } = this.state;
+    myTeam.splice(removalIndex, 1);
+    this.setState({ myTeam: myTeam });
+  }
+
+  handleHistoryCardClick(historyIndex) {
+    let { searchHistory } = this.state;
+    let clicked = searchHistory.splice(historyIndex, 1);
+    searchHistory = [...clicked, ...searchHistory];
+    this.setState({ searchHistory });
+  }
+
   render() {
-    let { searchTerm, searchHistory, myTeam, showTeam } = this.state;
+    let { searchTerm, searchHistory, myTeam, showTeam, error } = this.state;
     let lastSearched = searchHistory.length > 0 ? searchHistory[0] : false;
     return (
       <div className="App column">
@@ -72,11 +95,18 @@ class App extends Component {
           toggleRightBarMode={this.toggleRightBarMode}
         />
         <div className="row">
-          <MainPage lastSearched={lastSearched} />
+          <MainPage
+            lastSearched={lastSearched}
+            searchTerm={searchTerm}
+            error={error}
+            handleAddToTeamClick={this.handleAddToTeamClick}
+          />
           <RightSideBar
             myTeam={myTeam}
             searchHistory={searchHistory}
             showTeam={showTeam}
+            handleRemoveFromTeamClick={this.handleRemoveFromTeamClick}
+            handleHistoryCardClick={this.handleHistoryCardClick}
           />
         </div>
       </div>
