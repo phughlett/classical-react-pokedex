@@ -1,131 +1,127 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { Component } from "react";
+// import { Component } from "react";
+import { useState, useEffect } from "react";
 import { randomNumber, formatPokeData } from "./helperFunctions";
 import MainPage from "./components/MainPage";
 import NavBar from "./components/NavBar";
 import RightSideBar from "./components/RightSideBar";
 
-const url = `https://pokeapi.co/api/v2/pokemon/`; // the base url for searching a pokemon, minus the actual number or name
+function App() {
 
-// Helpers to make fetching cleaner to read:
+  let [searchTerm, setSearchterm] = useState('');
+  let [searchHistory, setSearchHistory] = useState([]);
+  let [myTeam, setMyTeam] = useState([]);
+  let [showTeam, setShowteam] = useState(true);
+  let [error, setError] = useState(false);
 
-function fetchPokemonFromSearchTerm(term) {
-  return fetch(`${url}${term}`)
-    .then((response) => response.json())
-    .then(formatPokeData);
-}
+  const url = `https://pokeapi.co/api/v2/pokemon/`; // the base url for searching a pokemon, minus the actual number or name
 
-function fetchRandomPokemon() {
-  return fetchPokemonFromSearchTerm(randomNumber(900));
-}
+  // Helpers to make fetching cleaner to read:
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      searchTerm: "",
-      searchHistory: [],
-      myTeam: [],
-      showTeam: true,
-      error: false,
-    };
-    this.handleSearchChange = this.handleSearchChange.bind(this);
-    this.handleSearchClick = this.handleSearchClick.bind(this);
-    this.toggleRightBarMode = this.toggleRightBarMode.bind(this);
-    this.handleAddToTeamClick = this.handleAddToTeamClick.bind(this);
-    this.handleRemoveFromTeamClick = this.handleRemoveFromTeamClick.bind(this);
-    this.handleHistoryCardClick = this.handleHistoryCardClick.bind(this);
-
-    // this.___ = this.___.bind(this);
+  async function fetchPokemonFromSearchTerm(term) {
+    // console.log('term:', term)
+    return fetch(`${url}${term}`)
+      .then((response) => response.json())
+      .then(formatPokeData);
   }
 
-  componentDidMount() {
+
+  function fetchRandomPokemon() {
+    return fetchPokemonFromSearchTerm(randomNumber(900));
+  }
+
+	useEffect(() => {
     fetchRandomPokemon().then((pokeData) => {
-      let { searchHistory } = this.state;
+
       searchHistory = searchHistory.filter(
         (item) => item.name !== pokeData.name
       );
 
-      this.setState({ searchHistory: [pokeData, ...searchHistory] });
+      setSearchHistory([pokeData, ...searchHistory]);
     });
-  }
-  toggleRightBarMode() {
-    let showTeam = !this.state.showTeam;
-    this.setState({ showTeam });
+
+	}, []);
+
+  function toggleRightBarMode() {
+    // let showTeam = !showTeam;
+    setShowteam(!showTeam);
   }
 
-  handleSearchClick(e) {
-    this.setState({ error: false });
+  function handleSearchClick(e) {
+    setError(false);
 
-    fetchPokemonFromSearchTerm(this.state.searchTerm)
+    fetchPokemonFromSearchTerm(searchTerm)
       .then((pokeData) => {
-        let { searchHistory } = this.state;
-        searchHistory = searchHistory.filter(
+
+        let searchHistoryFilter = searchHistory.filter(
           (item) => item.name !== pokeData.name
         );
 
-        this.setState({ searchHistory: [pokeData, ...searchHistory] });
+        setSearchHistory([pokeData, ...searchHistoryFilter]);
       })
       .catch((err) => {
-        this.setState({ error: "No Pokemon Found" });
+        setError("No Pokemon Found");
       });
+
     let searchBar = document.querySelector("#search-bar");
     searchBar.value = "";
     e.preventDefault();
   }
 
-  handleSearchChange(e) {
-    this.setState({ searchTerm: e.target.value });
-  }
-  handleAddToTeamClick(e) {
-    let { searchHistory, myTeam } = this.state;
-    myTeam = new Set([searchHistory[0], ...myTeam]);
-    this.setState({ myTeam: [...myTeam] });
-  }
-  handleRemoveFromTeamClick(removalIndex) {
-    console.log(removalIndex);
-    let { myTeam } = this.state;
-    myTeam.splice(removalIndex, 1);
-    this.setState({ myTeam: myTeam });
+  function handleSearchChange(e) {
+    setSearchterm(e.target.value);
   }
 
-  handleHistoryCardClick(historyIndex) {
-    let { searchHistory } = this.state;
+  function handleAddToTeamClick(e) {
+
+    // myTeam = new Set([searchHistory[0], ...myTeam]);
+    setMyTeam([...[searchHistory[0], ...myTeam]]);
+  }
+
+  function handleRemoveFromTeamClick(removalIndex) {
+    let newTeam = myTeam.filter((pokemon, index) => index !== removalIndex);
+    setMyTeam(newTeam);
+  }
+
+
+  function handleHistoryCardClick(historyIndex) {
+
     let clicked = searchHistory.splice(historyIndex, 1);
-    searchHistory = [...clicked, ...searchHistory];
-    this.setState({ searchHistory });
+    setSearchHistory([...clicked, ...searchHistory]);
   }
 
-  render() {
-    let { searchTerm, searchHistory, myTeam, showTeam, error } = this.state;
-    let lastSearched = searchHistory.length > 0 ? searchHistory[0] : false;
-    return (
-      <div className="App column">
-        <NavBar
-          showTeam={showTeam}
-          handleSearchChange={this.handleSearchChange}
-          handleSearchClick={this.handleSearchClick}
-          toggleRightBarMode={this.toggleRightBarMode}
+
+  //return instead of render now
+
+  let lastSearched = searchHistory.length > 0 ? searchHistory[0] : false;
+  return(
+    <div className="App column">
+
+      <NavBar
+        showTeam={showTeam}
+        handleSearchChange={handleSearchChange}
+        handleSearchClick={handleSearchClick}
+        toggleRightBarMode={toggleRightBarMode}
+      />
+      <div className="row">
+        <MainPage
+          lastSearched={lastSearched}
+          searchTerm={searchTerm}
+          error={error}
+          handleAddToTeamClick={handleAddToTeamClick}
         />
-        <div className="row">
-          <MainPage
-            lastSearched={lastSearched}
-            searchTerm={searchTerm}
-            error={error}
-            handleAddToTeamClick={this.handleAddToTeamClick}
-          />
-          <RightSideBar
-            myTeam={myTeam}
-            searchHistory={searchHistory}
-            showTeam={showTeam}
-            handleRemoveFromTeamClick={this.handleRemoveFromTeamClick}
-            handleHistoryCardClick={this.handleHistoryCardClick}
-          />
-        </div>
+        <RightSideBar
+          myTeam={myTeam}
+          searchHistory={searchHistory}
+          showTeam={showTeam}
+          handleRemoveFromTeamClick={handleRemoveFromTeamClick}
+          handleHistoryCardClick={handleHistoryCardClick}
+        />
       </div>
-    );
-  }
+    </div>
+  );
+
 }
 
 export default App;
