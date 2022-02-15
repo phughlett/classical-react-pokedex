@@ -17,7 +17,7 @@ function fetchPokemonFromSearchTerm(term) {
 }
 
 function fetchRandomPokemon() {
-  return fetchPokemonFromSearchTerm(randomNumber(600));
+  return fetchPokemonFromSearchTerm(randomNumber(900));
 }
 
 class App extends Component {
@@ -38,6 +38,17 @@ class App extends Component {
     this.handleHistoryCardClick = this.handleHistoryCardClick.bind(this);
 
     // this.___ = this.___.bind(this);
+  }
+
+  componentDidMount() {
+    fetchRandomPokemon().then((pokeData) => {
+      let { searchHistory } = this.state;
+      searchHistory = searchHistory.filter(
+        (item) => item.name !== pokeData.name
+      );
+
+      this.setState({ searchHistory: [pokeData, ...searchHistory] });
+    });
   }
   toggleRightBarMode() {
     let showTeam = !this.state.showTeam;
